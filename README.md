@@ -11,19 +11,15 @@ I built this small cross os/architecture utility to support the ```turn_off``` a
 ---
 ## Installation
 
+If you run restshut the first time it creates a sample config in the same directory which you can adjust to your needs. A logfile is also created in the same directory as restshut.
+
 ### Windows
 
 To run the utility on every start in the background use a scheduled task.
 
-```powershell
-$latestRelease = Invoke-WebRequest https://github.com/pheelee/restshut/releases/latest -Headers @{"Accept"="application/json"}
-
-Invoke-WebRequest https://github.com/pheelee/restshut/releases/download/
-```
-
 ### Linux
 
-Please read the documentation for your linux flavor on how to create a service.
+Please read the documentation for your linux distro on how to create a service.
 
 Here is a sample system.d unit file:
 
