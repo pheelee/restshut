@@ -1,3 +1,3 @@
 module github.com/pheelee/restshut
 
-go 1.17
+go 1.23

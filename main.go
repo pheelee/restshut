@@ -3,7 +3,6 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"math/rand"
 	"net/http"
@@ -12,7 +11,6 @@ import (
 	"path"
 	"runtime"
 	"strings"
-	"time"
 )
 
 var c Config
@@ -26,7 +24,6 @@ type Config struct {
 func generateApiKey(length int) string {
 	var output []byte = make([]byte, length)
 	var chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-	rand.Seed(time.Now().UnixMicro())
 	for i := 0; i < length; i++ {
 		output[i] = chars[rand.Intn(len(chars))]
 	}
@@ -83,11 +80,11 @@ func shutdownHandler(w http.ResponseWriter, r *http.Request) {
 
 func ReadConfig(location string) (Config, error) {
 
-	b, err := ioutil.ReadFile(location)
+	b, err := os.ReadFile(location)
 	if err != nil {
 		c = Config{AllowedHosts: []string{}, ApiKey: generateApiKey(32), Port: 7000}
 		b, _ = json.MarshalIndent(c, "", " ")
-		ioutil.WriteFile(location, b, 0755)
+		os.WriteFile(location, b, 0755)
 	}
 
 	err = json.Unmarshal(b, &c)
@@ -103,7 +100,7 @@ func main() {
 	config_path := path.Join(current_dir, "config.json")
 	l, e := os.Create(path.Join(current_dir, "restshut.log"))
 	if e != nil {
-		log.Fatalf(e.Error())
+		log.Fatal(e.Error())
 	}
 	log.SetOutput(l)
 	defer l.Close()
